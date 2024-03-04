@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "674245761277",
+    "project_id": "nihat-application",
+    "storage_bucket": "nihat-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674245761277:android:85877007046c82f5f24694",
+        "android_client_info": {
+          "package_name": "com.example.flutter_march"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOTJb7NghYlzMhea7v0JSMj3A9GEA8Zis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
