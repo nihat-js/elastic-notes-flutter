@@ -49,30 +49,30 @@ class _NewPostPageState extends State<NewPostPage> {
                 labelText: 'Price',
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             TextFormField(
               controller: _descriptionController,
               maxLines: 3,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Description',
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             TextFormField(
               controller: _phoneNumberController,
               keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Phone Number',
               ),
             ),
-            SizedBox(height: 24.0),
+            const SizedBox(height: 24.0),
             ElevatedButton(
               onPressed: () {
                 // Handle button press (e.g., save post to Firestore)
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.teal, // Button color
-                onPrimary: Colors.white, // Text color
+                backgroundColor: Colors.teal, // Button color
+                foregroundColor: Colors.white, // Text color
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),

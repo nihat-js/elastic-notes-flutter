@@ -2,6 +2,7 @@ import "dart:developer";
 
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
+import "package:flutter_march/pages/add_post.dart";
 import "package:flutter_march/pages/home_page.dart";
 import "package:flutter_march/pages/profile_page.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,7 +33,11 @@ class _MainState extends State<EntryPage> {
         title: const Text("Flutter Project"),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => NewPostPage())
+          )
+        },
         child: const Icon(Icons.add),
       ),
       body: pages[currentPage],
