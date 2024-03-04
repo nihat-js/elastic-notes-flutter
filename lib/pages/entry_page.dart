@@ -1,9 +1,11 @@
+import "dart:developer";
+
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter/material.dart";
 import "package:flutter_march/pages/home_page.dart";
 import "package:flutter_march/pages/profile_page.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import "package:flutter_march/pages/settings_page.dart";
 
 class EntryPage extends StatefulWidget {
   const EntryPage({super.key});
@@ -15,27 +17,15 @@ class EntryPage extends StatefulWidget {
 class _MainState extends State<EntryPage> {
   int currentPage = 0;
 
-  Widget activePage = HomePage();
-
   @override
   Widget build(BuildContext context) {
-    switch (currentPage) {
-      case 0: 
-           HomePage(); 
-          break;
-      case 1 : 
-           HomePage();
-          break;
-      case 2:
-           HomePage(); 
-          break;
-      case 3:
-        const ProfilePage();
-        break;
-    }
-
-
-    
+    var pages = [
+      HomePage(),
+      HomePage(),
+      HomePage(),
+      const ProfilePage(),
+      SettingsPage()
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +35,7 @@ class _MainState extends State<EntryPage> {
         onPressed: () => {},
         child: const Icon(Icons.add),
       ),
-      body: activePage,
+      body: pages[currentPage],
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
@@ -54,6 +44,8 @@ class _MainState extends State<EntryPage> {
           NavigationDestination(icon: Icon(Icons.inbox), label: 'Messages'),
           NavigationDestination(
               icon: Icon(Icons.account_circle_sharp), label: 'Profile'),
+          NavigationDestination(
+              icon: Icon(Icons.settings), label: 'Settings')
         ],
         onDestinationSelected: (int index) {
           debugPrint("i am selected " + index.toString());
