@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import "package:flutter/material.dart";
+import 'package:flutter_march/pages/new_post.dart';
 import 'package:flutter_march/pages/auth_page.dart';
 import 'package:flutter_march/pages/entry_page.dart';
 import "package:flutter_march/pages/home_page.dart";
@@ -28,19 +31,37 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
+    
 
     return MaterialApp(
-      home:  const EntryPage() ,
+      home: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // While waiting for connection to Firebase, display a loading indicator
+              return Center(child: CircularProgressIndicator());
+            } else {
+              // If user is logged in, navigate to the home page
+              if (snapshot.hasData) {
+                return AuthPage();
+              } else {
+                // If user is not logged in, navigate to the login page
+                return AuthPage();
+              }
+            }
+          },
+        ),      
       debugShowCheckedModeBanner: false,
       theme:  ThemeData(
         primarySwatch: Colors.green,
       ),
-      // routes: {
-        // 'home' : (context) => HomePage(),
-        // '/auth' : (context) => AuthPage(),
-      // },
+      routes: {
+        "/entry" : (context) => EntryPage(),
+        "/auth" : (context) => AuthPage(),
+        "/add-post" : (context) => NewPostPage(),
+        "/profile" : (context) => ProfilePage(),
+
+      },
     );
   }
 }

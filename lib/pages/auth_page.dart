@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +15,36 @@ class _AuthPageState extends State<AuthPage> {
     });
   }
 
+  login(email, password) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      Navigator.of(context).pushNamedAndRemoveUntil("/entry", (_) => false);
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Firebase Error'),
+            content: Text(e.toString()),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    // print('User ${} logged in');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +52,7 @@ class _AuthPageState extends State<AuthPage> {
         title: const Text('Authentication'),
       ),
       body: _showLogin
-          ? LoginComponent(toggleView: _toggleView)
+          ? LoginComponent(toggleView: _toggleView, login : login)
           : RegisterComponent(toggleView: _toggleView),
     );
   }
@@ -34,22 +62,12 @@ class _AuthPageState extends State<AuthPage> {
 
 class LoginComponent extends StatelessWidget {
   final VoidCallback toggleView;
+  final Function login;
 
-   LoginComponent({super.key, required this.toggleView});
+  LoginComponent({super.key, required this.toggleView, required this.login});
 
-   String _email = "";
-   String _password = "";
-
-  login() async {
-    debugPrint("line456...." + _email + " " + _password);
-    FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _email,
-        password: _password,
-      );
-
-      // print('User ${userCredential.refreshToken} logged in');
-  }
+  String _email = "";
+  String _password = "";
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +78,7 @@ class LoginComponent extends StatelessWidget {
           // Add your login component UI here
           const Text('Login Component'),
           TextFormField(
-            decoration: InputDecoration(labelText: 'Email'),
+            decoration: const InputDecoration(labelText: 'Email'),
             onChanged: (value) => _email = value.toString(),
           ),
           TextFormField(
@@ -70,7 +88,7 @@ class LoginComponent extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: login,
+            onPressed: () => login(_email,_password),
             child: const Text('Login'),
           ),
           const SizedBox(height: 20),
@@ -88,12 +106,10 @@ class LoginComponent extends StatelessWidget {
 class RegisterComponent extends StatelessWidget {
   final toggleView;
 
-   RegisterComponent({super.key, required this.toggleView});
+  RegisterComponent({super.key, required this.toggleView});
   late String _username;
   late String _email;
   late String _password;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -104,38 +120,38 @@ class RegisterComponent extends StatelessWidget {
           // Add your register component UI here
           const Text('Register Component'),
           TextFormField(
-              decoration: InputDecoration(labelText: 'Username'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your username';
-                }
-                return null;
-              },
-              onSaved: (value) => _username = value!,
-            ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Email'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your email';
-                }
-                // Add email validation logic if needed
-                return null;
-              },
-              onSaved: (value) => _email = value!,
-            ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Password'),
-              obscureText: true,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
-                }
-                // Add password validation logic if needed
-                return null;
-              },
-              onSaved: (value) => _password = value!,
-            ),
+            decoration: InputDecoration(labelText: 'Username'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your username';
+              }
+              return null;
+            },
+            onSaved: (value) => _username = value!,
+          ),
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Email'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your email';
+              }
+              // Add email validation logic if needed
+              return null;
+            },
+            onSaved: (value) => _email = value!,
+          ),
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Password'),
+            obscureText: true,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your password';
+              }
+              // Add password validation logic if needed
+              return null;
+            },
+            onSaved: (value) => _password = value!,
+          ),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {

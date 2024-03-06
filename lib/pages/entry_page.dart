@@ -1,8 +1,9 @@
 import "dart:developer";
 
 import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
-import "package:flutter_march/pages/add_post.dart";
+import "package:flutter_march/pages/new_post.dart";
 import "package:flutter_march/pages/home_page.dart";
 import "package:flutter_march/pages/profile_page.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,9 +35,11 @@ class _MainState extends State<EntryPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => NewPostPage())
-          )
+          // print("aaa" + FirebaseAuth.instance.currentUser.toString() );
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => NewPostPage()))
+          // Navigator.of(context).pushNamed("")
+          // FirebaseAuth.instance.setPersistence(Persistence.)
         },
         child: const Icon(Icons.add),
       ),
@@ -49,8 +52,7 @@ class _MainState extends State<EntryPage> {
           NavigationDestination(icon: Icon(Icons.inbox), label: 'Messages'),
           NavigationDestination(
               icon: Icon(Icons.account_circle_sharp), label: 'Profile'),
-          NavigationDestination(
-              icon: Icon(Icons.settings), label: 'Settings')
+          NavigationDestination(icon: Icon(Icons.settings), label: 'Settings')
         ],
         onDestinationSelected: (int index) {
           debugPrint("i am selected " + index.toString());
