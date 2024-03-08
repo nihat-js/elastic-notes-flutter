@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_march/components/button.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -48,13 +49,23 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Authentication'),
-      ),
-      body: _showLogin
-          ? LoginComponent(toggleView: _toggleView, login : login)
-          : RegisterComponent(toggleView: _toggleView),
-    );
+        appBar: AppBar(
+          title: const Text('Authentication'),
+        ),
+        body: Stack(
+          children: [
+            Image.asset(
+            'images/bg-6.jpg',
+            fit: BoxFit.fitWidth,
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          _showLogin
+              ? LoginComponent(toggleView: _toggleView, login: login)
+              : RegisterComponent(toggleView: _toggleView),  
+          ],
+          
+        ));
   }
 }
 
@@ -71,33 +82,36 @@ class LoginComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          // Add your login component UI here
-          const Text('Login Component'),
-          TextFormField(
-            decoration: const InputDecoration(labelText: 'Email'),
-            onChanged: (value) => _email = value.toString(),
-          ),
-          TextFormField(
-            decoration: InputDecoration(labelText: 'Password'),
-            obscureText: true,
-            onChanged: (value) => _password = value,
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () => login(_email,_password),
-            child: const Text('Login'),
-          ),
-          const SizedBox(height: 20),
-          const Text("If you don't have an account, please register."),
-          TextButton(
-            onPressed: toggleView,
-            child: Text('Register'),
-          ),
-        ],
+    return  Center(
+      child: SizedBox(
+        width:  MediaQuery.of(context).size.width/2,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // Add your login component UI here
+            const Text('Login Component'),
+            TextFormField(
+              decoration: const InputDecoration(labelText: 'Email'),
+              onChanged: (value) => _email = value.toString(),
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
+              onChanged: (value) => _password = value,
+            ),
+            const SizedBox(height: 20),
+            HydraButton(
+              onPressed: () => login(_email, _password),
+              text:'Login',
+            ),
+            const SizedBox(height: 20),
+            const Text("If you don't have an account, please register."),
+            TextButton(
+              onPressed: toggleView,
+              child: const Text('Register'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -113,7 +127,7 @@ class RegisterComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

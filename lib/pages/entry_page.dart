@@ -3,9 +3,10 @@ import "dart:developer";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:flutter_march/pages/game.dart";
 import "package:flutter_march/pages/new_post.dart";
 import "package:flutter_march/pages/home_page.dart";
-import "package:flutter_march/pages/profile_page.dart";
+import "package:flutter_march/pages/profile/profile_page.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter_march/pages/settings_page.dart";
 
@@ -23,7 +24,7 @@ class _MainState extends State<EntryPage> {
   Widget build(BuildContext context) {
     var pages = [
       HomePage(),
-      HomePage(),
+      GameScreen(),
       HomePage(),
       const ProfilePage(),
       SettingsPage()
