@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 class MissionScreen extends StatelessWidget {
   const MissionScreen({super.key});
 
+  
+
    void startMissionDialog(context) {
     debugPrint("starting mission");
     showDialog(

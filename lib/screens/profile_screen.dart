@@ -85,11 +85,11 @@ class PlusOneButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // final mainProvider = Provider.of<MainProvider>(context);
-        // mainProvider.gameData["skills"][skill] += 1;
+        final mainProvider = Provider.of<MainProvider>(context,listen: false);
+        mainProvider.gameData["skills"][skill] += 1;
         print("maraqli");
-        // print( mainProvider.gameData["skills"][skill]);
-        // mainProvider.notifyListeners();
+        print( mainProvider.gameData["skills"][skill]);
+        mainProvider.notifyListeners();
         // Add your onPressed logic here
       },
       child: SizedBox(

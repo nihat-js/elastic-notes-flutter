@@ -77,16 +77,16 @@ class UserStat extends StatelessWidget {
   Widget build(BuildContext context) {
     Color barColor = Colors.green;
     int maxStatValue = 10 ; // defau
-    for (final item in limits){
-      if (item["value"] > statValue ) {
-            barColor = item["color"];
-            maxStatValue = item["value"];
-            // print("ne isteyirsen ee"+maxStatValue.toString());
-          break;
-      }
+    int minStatValue = 10;
+    for (int i = 0; i < limits.length; i++){
+      if (limits[i]["value"] > statValue ) {
+                  barColor = limits[i]["color"];
+                  maxStatValue = limits[i]["value"];
+                  minStatValue = limits[i-1]["value"] as bool ?  limits[i-1]["value"] ? limits[i]["value"] ;
+                  // print("ne isteyirsen ee"+maxStatValue.toString());
+                break;
+            }
     }
-
-
 
     return Row(
       children: [
@@ -98,7 +98,7 @@ class UserStat extends StatelessWidget {
         SizedBox(
           width: 50,
           child: LinearProgressIndicator(
-            value:  ( maxStatValue -  statValue ) / 100, // Normalize value to be between 0 and 1
+            value:  ( maxStatValue -  minStatValue ) / (statValue - minStatValue), // Normalize value to be between 0 and 1
             backgroundColor: Colors.grey[300],
             valueColor: AlwaysStoppedAnimation<Color>(barColor),
             minHeight: 8,
