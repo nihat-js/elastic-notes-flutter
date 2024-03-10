@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_march/data/index.dart';
 
 class MainProvider with ChangeNotifier {
    final _gameData = {
+    "skills" : {
+      Skill.stamina : 15,
+      Skill.strength : 18,
+      Skill.luck : 11,
+      Skill.dexterity :20,
+    },
     "name": "Nihat",
     "age": 22,
     "occupation": "",
@@ -17,7 +24,6 @@ class MainProvider with ChangeNotifier {
     ],
     "isInTimeMission": false,
   };
-  int bottomNavIndex = 0;
   
 
   Map get gameData => _gameData;

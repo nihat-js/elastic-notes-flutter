@@ -42,3 +42,7 @@ enum MissionDifficulty {
 enum MissionCharacters{
   VorMahir,CPIlqar, 
 }
+
+enum Skill {
+  stamina,strength,luck,dexterity
+}

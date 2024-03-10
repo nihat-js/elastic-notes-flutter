@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_march/data/index.dart';
 
 class UserStats extends StatelessWidget {
   final int stamina;
@@ -27,23 +28,23 @@ class UserStats extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _UserStat(statName: 'Stamina', statValue: stamina),
-          _UserStat(statName: 'Strength', statValue: strength),
-          _UserStat(statName: 'Luck', statValue: luck),
-          _UserStat(statName: 'Dexterity', statValue: dexterity),
+          UserStat(statName: Skill.stamina, statValue: stamina),
+          UserStat(statName: Skill.strength, statValue: strength),
+          UserStat(statName: Skill.luck, statValue: luck),
+          UserStat(statName: Skill.dexterity, statValue: dexterity),
         ],
       ),
     );
   }
 }
 
-class _UserStat extends StatelessWidget {
-  final String statName;
+class UserStat extends StatelessWidget {
+  final Skill statName;
   final int statValue;
   // final Color  barColor;
   // final int maxValue; 
 
-  _UserStat({required this.statName, required this.statValue});
+  UserStat({required this.statName, required this.statValue});
 
   List<Map> limits = [
     {
@@ -66,7 +67,6 @@ class _UserStat extends StatelessWidget {
       "value": 300,
       "color": Colors.purple[500],
     },
-      
  
    
   ];
@@ -91,7 +91,7 @@ class _UserStat extends StatelessWidget {
     return Row(
       children: [
         Text(
-          statName + ': ',
+          statName.toString() + ': ',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         SizedBox(width: 10),

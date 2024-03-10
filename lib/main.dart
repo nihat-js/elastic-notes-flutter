@@ -36,7 +36,15 @@ class App extends StatelessWidget {
   }
 }
 
-class Game extends StatelessWidget {
+class Game extends StatefulWidget {
+  @override
+  State<Game> createState() => _GameState();
+}
+
+class _GameState extends State<Game> {
+
+  int bottomNavIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     final mainProvider = Provider.of<MainProvider>(context);
@@ -55,17 +63,12 @@ class Game extends StatelessWidget {
         onDestinationSelected: (int index) {
           // debugPrint("i am selected " + index.toString());
           mainProvider.setBottomNavIndex(index);
-          if (index == 3) {
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil("mission", (route) => false);
-          } else if (index == 2) {
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil("mission", (route) => false);
-          }
+          bottomNavIndex = index;
+          setState(() {});
         },
-        selectedIndex: mainProvider.bottomNavIndex,
+        selectedIndex: bottomNavIndex,
       ),
-      body: ArenaScreen(),
+      body:  [ProfileScreen(),ProfileScreen(), ArenaScreen()][bottomNavIndex],
     );
   }
 }
