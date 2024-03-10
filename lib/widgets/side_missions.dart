@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 class SideMissions extends StatefulWidget {
   var setGameData;
   var gameData;
-  SideMissions({super.key, required this.setGameData, required this.gameData});
+  SideMissions({super.key});
 
   @override
   State<SideMissions> createState() => _SideMissionsState();

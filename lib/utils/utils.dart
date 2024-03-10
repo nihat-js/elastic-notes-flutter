@@ -4,24 +4,16 @@ double generateRandomMoney(double min,double max, double chance){
 }
 
 
-enum MissionPlace{
-  yesilvadi,
-  nikobank, 
-  genclikMall,
-  subway,
-  gym,
-  casino,
-  school,
-  sahdag,
-  sehirmerkezi,
-}
+
+// double calculateDamage(Map userSkills, Map enemySkills){
+
+// }
+
+// logs = 
 
 
-List missionPlaces = [MissionPlace.yesilvadi,MissionPlace.sehirmerkezi];
-List missionPlaceBackgrounds = ["images/places/yesilvadi.png", "images/places/sehir-merkezi.png",];
+// int main(){
+//   while(true){
 
-//  setState(() {
-  //     cashMoney += earnedMoney;
-  //     logs.add({"text": templates[random.nextInt(templates.length)]});
-  //   });
-  // }
+//   }
+// }

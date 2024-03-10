@@ -1,18 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import "dart:math";
-import 'package:flutter/widgets.dart';
+import 'package:flutter_march/data/index.dart';
+import 'package:flutter_march/providers/main_provider.dart';
 import 'package:flutter_march/utils/utils.dart';
-import "package:circular_countdown_timer/circular_countdown_timer.dart";
 import 'package:flutter_march/widgets/side_missions.dart';
+import 'package:flutter_march/widgets/top_bar.dart';
+import 'package:provider/provider.dart';
 
 const String gameName = "Baki life Simulator";
 void main() {
-  runApp(LifeSimulatorApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => MainProvider(),
+      child: MehkumGame(),
+    ),
+  );
 }
 
-class LifeSimulatorApp extends StatelessWidget {
+class MehkumGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,62 +25,26 @@ class LifeSimulatorApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LifeSimulatorScreen(),
+      home: MehkumGameApp(),
     );
   }
 }
 
-class LifeSimulatorScreen extends StatefulWidget {
+class MehkumGameApp extends StatefulWidget {
   @override
-  State<LifeSimulatorScreen> createState() => _LifeSimulatorScreenState();
+  State<MehkumGameApp> createState() => _MehkumGameAppState();
 }
 
-class _LifeSimulatorScreenState extends State<LifeSimulatorScreen> {
-  var gameData = {
-    "name": "Nihat",
-    "age": 22,
-    "occupation": "",
-    "bottomNavIndex": 0,
-    "cashMoney": 35,
-    "cardMoney": 8,
-    "isMarried": false,
-    "logs": [
-      {
-        "isTitle": false,
-        "text": "18 Yaşın var və gənclikdə yaşayırsan. Kredit borcun yoxdu"
-      }
-    ],
-    "isInTimeMission": false,
-  };
-
-  int missionPlaceIndex = 0;
-
-  void setGameData(Map data) {
-    setState(() {
-      gameData = {...gameData,...data};
-    });
-  }
-
-  void travelMissionPlace(String type) {
-    // debugPrint("Traveling");
-    setState(() {
-      type == "left" ? missionPlaceIndex-- : missionPlaceIndex++;
-      if (missionPlaceIndex >= missionPlaces.length) {
-        missionPlaceIndex = missionPlaces.length - 1;
-      }
-      if (missionPlaceIndex < 0) {
-        missionPlaceIndex = 0;
-      }
-    });
-  }
-
-  void startTimedMission() {}
+class _MehkumGameAppState extends State<MehkumGameApp> {
+ 
 
   void startMissionDialog() {
     debugPrint("starting mission");
     showDialog(
         context: context,
         builder: ((BuildContext context2) {
+            final mainProvider = Provider.of<MainProvider>(context);
+            Map gameData = mainProvider.gameData;
           return AlertDialog(
             title: Text('Start  mission'),
             content: Text('This is the content of the dialog.'),
@@ -94,7 +62,7 @@ class _LifeSimulatorScreenState extends State<LifeSimulatorScreen> {
                   Future.delayed(const Duration(seconds: 3), () {
                     gameData["isInTimeMission"] = false;
                     gameData["cashMoney"] = (gameData["cashMoney"] as int) + 10;
-                    setState(() => {});
+                    mainProvider.notifyListeners();
                     showDialog(
                       context: context,
                       builder: (context_) {
@@ -112,7 +80,7 @@ class _LifeSimulatorScreenState extends State<LifeSimulatorScreen> {
                     );
                   });
                   setState(() {
-                    gameData["isInTimeMission"] = true;
+                    // gameData["isInTimeMission"] = true;
                   });
                 },
                 child: Text('Start'),
@@ -124,69 +92,45 @@ class _LifeSimulatorScreenState extends State<LifeSimulatorScreen> {
 
   @override
   Widget build(BuildContext context) {
+  final mainProvider = Provider.of<MainProvider>(context);
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(gameName),
-        backgroundColor: const Color.fromRGBO(255, 165, 0, 1),
-      ),
+      // appBar: AppBar(
+      //   title: const Text(gameName),
+      //   backgroundColor: const Color.fromRGBO(255, 165, 0, 1),
+      // ),
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Ev'),
           NavigationDestination(
               icon: Icon(Icons.real_estate_agent), label: 'Mülklərim'),
           NavigationDestination(
+              icon: Icon(Icons.warehouse), label: 'Arena'),
+          NavigationDestination(
               icon: Icon(Icons.real_estate_agent), label: 'Yan misyalar'),
+          NavigationDestination(
+              icon: Icon(Icons.terrain), label: 'Klan')
         ],
         onDestinationSelected: (int index) {
           // debugPrint("i am selected " + index.toString());
-          setGameData({
-            "bottomNavIndex": index,
-          });
+          mainProvider.setBottomNavIndex(index);
+          // setGameData({
+          //   "bottomNavIndex": index,
+          // });
         },
-        selectedIndex: gameData["bottomNavIndex"] as int ?? 0,
+        selectedIndex: mainProvider.bottomNavIndex,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                // const Icon(Icons.monetization_on),
-                Container(
-                  width: 100,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        // color: Colors.red,
-                        // width: 1.0,
-                        ),
-                    gradient: LinearGradient(
-                      colors: [Colors.yellow, Color(0xffad9c00)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                  ),
-                  child: Text('AZN ${gameData["cashMoney"]}',
-                      style: TextStyle(fontSize: 18)),
-                ),
-                const SizedBox(width: 5),
-
-                const SizedBox(width: 20),
-                const Icon(Icons.credit_card),
-                const SizedBox(width: 5),
-                Text('\AZN ${gameData["cardMoney"]}',
-                    style: TextStyle(fontSize: 18)),
-              ],
-            ),
-          ),
-          SideMissions(setGameData :setGameData, gameData : gameData),
+          TopBar(),
+          // SideMissions(),
           Expanded(
             child: Stack(fit: StackFit.expand, children: [
               // Background image
               Image.asset(
-                missionPlaceBackgrounds[missionPlaceIndex],
+                missionPlaceBackgrounds[mainProvider.missionPlaceIndex  ],
                 fit: BoxFit.fitHeight,
               ),
               LayoutBuilder(builder: (context, constraints) {
@@ -195,7 +139,7 @@ class _LifeSimulatorScreenState extends State<LifeSimulatorScreen> {
                     left: 16,
                     top: constraints.maxHeight * .5 - 24,
                     child: GestureDetector(
-                      onTap: () => travelMissionPlace("left"),
+                      // onTap: () => travelMissionPlace("left"),
                       child: Icon(
                         Icons.arrow_back,
                         size: 48,
@@ -207,7 +151,7 @@ class _LifeSimulatorScreenState extends State<LifeSimulatorScreen> {
                     right: 16,
                     bottom: constraints.maxHeight * .5 - 24,
                     child: GestureDetector(
-                      onTap: () => travelMissionPlace("right"),
+                      // onTap: () => travelMissionPlace("right"),
                       child: Icon(
                         Icons.arrow_forward,
                         size: 48,
@@ -217,7 +161,7 @@ class _LifeSimulatorScreenState extends State<LifeSimulatorScreen> {
                   ),
                   // Right arrow
 
-                  if (gameData["isInTimeMission"] == false)
+                  if (mainProvider.gameData["isInTimeMission"] == false)
                     EarnMoneyItem(
                       constraints: constraints,
                       callback: startMissionDialog,
