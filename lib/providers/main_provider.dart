@@ -22,6 +22,12 @@ class MainProvider with ChangeNotifier {
       //   {"time": 300, "difficulty": "hard", "character": "Teta", "text": "asda"}
       // ]
     },
+    "mission" : {
+      "startTime" : "",
+      "endTime" : "",
+      "xp" : "",
+      "coin" : "",
+    },
     "level": 22,
     "total_xp": 42230,
     "current_xp": 120,
@@ -39,6 +45,7 @@ class MainProvider with ChangeNotifier {
         "text": "18 Yaşın var və gənclikdə yaşayırsan. Kredit borcun yoxdu"
       }
     ],
+
     "isInTimeMission": false,
     "endOfTimeMission": DateTime.now()
   };

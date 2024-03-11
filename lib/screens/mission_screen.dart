@@ -86,6 +86,7 @@ class _MissionScreenState extends State<MissionScreen> {
                   print(entry);
                   return MissionButton(
                       missionIndex: entry.key,
+                      mission : entry.value.item,
                       // missionId: entry.value.item["id"].toString(),
                       constraints: constraints,
                       );
@@ -107,7 +108,7 @@ class _MissionScreenState extends State<MissionScreen> {
   }
 }
 
-void startMissionDialog(context) {
+void startMissionDialog(context,mission) {
   debugPrint("starting mission");
   showDialog(
       context: context,
@@ -116,7 +117,7 @@ void startMissionDialog(context) {
         Map gameData = mainProvider.gameData;
         return AlertDialog(
           title: Text('Start  mission'),
-          content: Text('This is the content of the dialog.'),
+          content: Text(   'This is the content of the dialog.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -142,12 +143,14 @@ class MissionButton extends StatelessWidget {
   String? missionId;
   int missionIndex;
   var constraints;
+  var mission;
   // var callback;
 
   MissionButton({
     super.key,
     required this.missionIndex,
     required this.constraints,
+    required this.mission,
     // this.missionId,
     // this.callback
   });
@@ -158,7 +161,9 @@ class MissionButton extends StatelessWidget {
         right: constraints.maxWidth / 3 * (missionIndex + 1),
         top: constraints.maxHeight * .3 + (missionIndex - 2).abs() * 20,
         child: GestureDetector(
-            onTap: () { startMissionDialog(context);}, child: Image.asset("images/icons/rocket.png")));
+            onTap: () { 
+              startMissionDialog(context,mission);
+              }, child: Image.asset("images/icons/rocket.png")));
   }
 }
 
