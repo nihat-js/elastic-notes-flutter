@@ -40,6 +40,7 @@ class MainProvider with ChangeNotifier {
       }
     ],
     "isInTimeMission": false,
+    "endOfTimeMission": DateTime.now()
   };
 
   Map get gameData => _gameData;
@@ -83,18 +84,32 @@ class MainProvider with ChangeNotifier {
     print(gameData["missions"][place]);
   }
 
-  Object? getMissionsOfPlace(MissionPlace place) {
-    // print("x0x");
-    // print(place);
-    if (gameData["missions"][place] == null){
+  List getMissionsOfPlace(MissionPlace place) {
+    if (gameData["missions"][place] == null) {
       generateMissionsOfPlace(place);
     }
     return gameData["missions"][place];
   }
 
-  var x = {"a": "A"};
-  // return x ;
-  // return gameData["missions"][place] ;
+  void startTimedMission(context,missionId) {
+    gameData["isInTimeMission"] = true;
+    Future.delayed(const Duration(seconds: 3), () {
+      gameData["isInTimeMission"] = false;
+      gameData["cashMoney"] = (gameData["cashMoney"] as int) + 10;
+      notifyListeners();
+      showDialog(
+        context: context,
+        builder: (context_) {
+          return AlertDialog(title: Text("You earned 10 AZN "), actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context_).pop();
+              },
+              child: Text('Close'),
+            ),
+          ]);
+        },
+      );
+    });
+  }
 }
-
-void startTimedMission() {}

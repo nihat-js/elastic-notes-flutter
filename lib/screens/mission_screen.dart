@@ -18,13 +18,11 @@ class _MissionScreenState extends State<MissionScreen> {
 
   void travelMissionPlace(String type) {
     // debugPrint("Traveling");ss
+    if (type=="left" && missionPlaceIndex == 0) return ;
+    if (type=="right" && missionPlaceIndex == missionPlaces.length -1 ) return ;
+
     type == "left" ? missionPlaceIndex-- : missionPlaceIndex++;
-    if (missionPlaceIndex >= missionPlaces.length) {
-      missionPlaceIndex = missionPlaces.length - 1;
-    }
-    if (missionPlaceIndex < 0) {
-      missionPlaceIndex = 0;
-    }
+    
     setState(() {});
   }
 
@@ -80,16 +78,16 @@ class _MissionScreenState extends State<MissionScreen> {
               ),
               if (mainProvider.gameData["isInTimeMission"] == false)
                 ...(mainProvider.getMissionsOfPlace(
-                        missionPlaces[missionPlaceIndex]["name"]) as List)
+                        missionPlaces[missionPlaceIndex]["name"]))
                     .asMap()
                     .entries
                     .map((entry) {
                   print("problem nedi ki");
                   print(entry);
                   return MissionButton(
-                      // missionIndex: entry.key,
+                      missionIndex: entry.key,
                       // missionId: entry.value.item["id"].toString(),
-                      // constraints: constraints,
+                      constraints: constraints,
                       );
                 })
               // EarnMoneyItem(
@@ -130,26 +128,8 @@ void startMissionDialog(context) {
               onPressed: () {
                 debugPrint("ok");
                 Navigator.of(context2).pop();
-                Future.delayed(const Duration(seconds: 3), () {
-                  gameData["isInTimeMission"] = false;
-                  gameData["cashMoney"] = (gameData["cashMoney"] as int) + 10;
-                  mainProvider.notifyListeners();
-                  showDialog(
-                    context: context,
-                    builder: (context_) {
-                      return AlertDialog(
-                          title: Text("You earned 10 AZN "),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context_).pop();
-                              },
-                              child: Text('Close'),
-                            ),
-                          ]);
-                    },
-                  );
-                });
+                  gameData["isInTimeMission"] = true;
+                
               },
               child: Text('Start'),
             ),
@@ -160,14 +140,14 @@ void startMissionDialog(context) {
 
 class MissionButton extends StatelessWidget {
   String? missionId;
-  // int missionIndex;
-  // var constraints;
+  int missionIndex;
+  var constraints;
   // var callback;
 
   MissionButton({
     super.key,
-    // required this.missionIndex,
-    // required this.constraints,
+    required this.missionIndex,
+    required this.constraints,
     // this.missionId,
     // this.callback
   });
@@ -175,10 +155,10 @@ class MissionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        // right: constraints.maxWidth / 3 * (missionIndex + 1),
-        // top: constraints.maxHeight * .3 + (missionIndex - 2).abs() * 20,
+        right: constraints.maxWidth / 3 * (missionIndex + 1),
+        top: constraints.maxHeight * .3 + (missionIndex - 2).abs() * 20,
         child: GestureDetector(
-            onTap: () {}, child: Image.asset("images/icons/rocket.png")));
+            onTap: () { startMissionDialog(context);}, child: Image.asset("images/icons/rocket.png")));
   }
 }
 
