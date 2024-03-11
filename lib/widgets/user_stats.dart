@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_march/data/index.dart';
@@ -42,50 +41,46 @@ class UserStat extends StatelessWidget {
   final Skill statName;
   final int statValue;
   // final Color  barColor;
-  // final int maxValue; 
+  // final int maxValue;
 
   UserStat({required this.statName, required this.statValue});
 
   List<Map> limits = [
     {
-      "value" : 0,
-      "color" :  Colors.amber[500],
-    },
-     {
-      "value": 100,
-      "color": Colors.orange[500],
-    },
-     {
-      "value": 200,
-      "color": Colors.deepOrange[500],
-    },
-      {
-      "value": 200,
-      "color":  Colors.blue[500],
+      "value": 0,
+      "color": Colors.purple[100],
     },
     {
-      "value": 300,
+      "value": 20,
+      "color": Colors.purple[400],
+    },
+    {
+      "value": 40,
+      "color": Colors.purple[600],
+    },
+    {
+      "value": 60,
+      "color": Colors.blue[500],
+    },
+    {
+      "value": 80,
       "color": Colors.purple[500],
     },
- 
-   
   ];
-
-
 
   @override
   Widget build(BuildContext context) {
     Color barColor = Colors.green;
-    int maxStatValue = 10 ; // defau
+    int maxStatValue = 10; // defau
     int minStatValue = 10;
-    for (int i = 0; i < limits.length; i++){
-      if (limits[i]["value"] > statValue ) {
-                  barColor = limits[i]["color"];
-                  maxStatValue = limits[i]["value"];
-                  minStatValue = limits[i-1]["value"] as bool ?  limits[i-1]["value"] ? limits[i]["value"] ;
-                  // print("ne isteyirsen ee"+maxStatValue.toString());
-                break;
-            }
+    for (int i = 0; i < limits.length; i++) {
+      if (statValue > limits[i]["value"]) {
+        barColor = limits[i]["color"];
+        minStatValue = limits[i]["value"];
+        maxStatValue = limits[i + 1 < limits.length ? i + 1 : i]["value"];
+        // print("ne isteyirsen ee"+maxStatValue.toString());
+        // break;
+      }
     }
 
     return Row(
@@ -98,7 +93,9 @@ class UserStat extends StatelessWidget {
         SizedBox(
           width: 50,
           child: LinearProgressIndicator(
-            value:  ( maxStatValue -  minStatValue ) / (statValue - minStatValue), // Normalize value to be between 0 and 1
+            value: 0.02 +
+                (statValue - minStatValue) / (maxStatValue - minStatValue),
+            // Normalize value to be between 0 and 1
             backgroundColor: Colors.grey[300],
             valueColor: AlwaysStoppedAnimation<Color>(barColor),
             minHeight: 8,

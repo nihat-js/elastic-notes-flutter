@@ -4,122 +4,181 @@ import 'package:flutter_march/main.dart';
 import 'package:flutter_march/providers/main_provider.dart';
 import 'package:flutter_march/widgets/status_bar/index.dart';
 import 'package:provider/provider.dart';
+import "dart:core";
 
-class MissionScreen extends StatelessWidget {
+class MissionScreen extends StatefulWidget {
   const MissionScreen({super.key});
 
-  
+  @override
+  State<MissionScreen> createState() => _MissionScreenState();
+}
 
-   void startMissionDialog(context) {
-    debugPrint("starting mission");
-    showDialog(
-        context: context,
-        builder: ((BuildContext context2) {
-            final mainProvider = Provider.of<MainProvider>(context);
-            Map gameData = mainProvider.gameData;
-          return AlertDialog(
-            title: Text('Start  mission'),
-            content: Text('This is the content of the dialog.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context2).pop();
-                },
-                child: Text('Close'),
-              ),
-              TextButton(
-                onPressed: () {
-                  debugPrint("ok");
-                  Navigator.of(context2).pop();
-                  Future.delayed(const Duration(seconds: 3), () {
-                    gameData["isInTimeMission"] = false;
-                    gameData["cashMoney"] = (gameData["cashMoney"] as int) + 10;
-                    mainProvider.notifyListeners();
-                    showDialog(
-                      context: context,
-                      builder: (context_) {
-                        return AlertDialog(
-                            title: Text("You earned 10 AZN "),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context_).pop();
-                                },
-                                child: Text('Close'),
-                              ),
-                            ]);
-                      },
-                    );
-                  });
-                },
-                child: Text('Start'),
-              ),
-            ],
-          );
-        }));
+class _MissionScreenState extends State<MissionScreen> {
+  int missionPlaceIndex = 0;
+
+  void travelMissionPlace(String type) {
+    // debugPrint("Traveling");ss
+    type == "left" ? missionPlaceIndex-- : missionPlaceIndex++;
+    if (missionPlaceIndex >= missionPlaces.length) {
+      missionPlaceIndex = missionPlaces.length - 1;
+    }
+    if (missionPlaceIndex < 0) {
+      missionPlaceIndex = 0;
+    }
+    setState(() {});
   }
-
 
   @override
   Widget build(BuildContext context) {
-      final mainProvider = Provider.of<MainProvider>(context);
+    final mainProvider = Provider.of<MainProvider>(context);
     return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          StatusBar(),
-          // SideMissions(),
-          Expanded(
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      // crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // SideMissions(),
+        Expanded(
             child: Stack(fit: StackFit.expand, children: [
-              // Background image
-              Image.asset(
-                missionPlaceBackgrounds[mainProvider.missionPlaceIndex  ],
-                fit: BoxFit.fitHeight,
+          Image.asset(
+            missionPlaces[missionPlaceIndex]['background'],
+            fit: BoxFit.fitHeight,
+          ),
+          LayoutBuilder(builder: (context, constraints) {
+            return Stack(children: [
+              // Positioned(
+              //   top : 10,
+              //   left : 20,
+              // width: double.infinity,
+              // height: double.infinity,
+              // child: StatusBar(),
+              // )
+              Positioned(
+                left: 16,
+                top: constraints.maxHeight * .5 - 24,
+                child: GestureDetector(
+                  onTap: () => travelMissionPlace("left"),
+                  child: Opacity(
+                    opacity: missionPlaceIndex == 0 ? .5 : 1,
+                    child: Icon(
+                      Icons.arrow_back,
+                      size: 48,
+                      color: Colors.purpleAccent,
+                    ),
+                  ),
+                ),
               ),
-              LayoutBuilder(builder: (context, constraints) {
-                return Stack(children: [
-                  Positioned(
-                    left: 16,
-                    top: constraints.maxHeight * .5 - 24,
-                    child: GestureDetector(
-                      // onTap: () => travelMissionPlace("left"),
-                      child: Icon(
-                        Icons.arrow_back,
-                        size: 48,
-                        color: Colors.greenAccent,
-                      ),
-                    ),
+              Positioned(
+                right: 16,
+                bottom: constraints.maxHeight * .5 - 24,
+                child: GestureDetector(
+                  onTap: () => travelMissionPlace("right"),
+                  child: Icon(
+                    Icons.arrow_forward,
+                    size: 48,
+                    color: Colors.purple,
                   ),
-                  Positioned(
-                    right: 16,
-                    bottom: constraints.maxHeight * .5 - 24,
-                    child: GestureDetector(
-                      // onTap: () => travelMissionPlace("right"),
-                      child: Icon(
-                        Icons.arrow_forward,
-                        size: 48,
-                        color: Colors.greenAccent,
-                      ),
-                    ),
-                  ),
-                  // Right arrow
-
-                  // if (mainProvider.gameData["isInTimeMission"] == false)
-                    // EarnMoneyItem(
+                ),
+              ),
+              if (mainProvider.gameData["isInTimeMission"] == false)
+                ...(mainProvider.getMissionsOfPlace(
+                        missionPlaces[missionPlaceIndex]["name"]) as List)
+                    .asMap()
+                    .entries
+                    .map((entry) {
+                  print("problem nedi ki");
+                  print(entry);
+                  return MissionButton(
+                      // missionIndex: entry.key,
+                      // missionId: entry.value.item["id"].toString(),
                       // constraints: constraints,
-                      // callback: startMissionDialog,
-                    // )
-                  // else
-                  //   LinearProgressIndicator(),
-                ]);
-              }),
+                      );
+                })
+              // EarnMoneyItem(
+              // constraints: constraints,
+              // callback: startMissionDialog,
+              // )
+              // else
+              // LinearProgressIndicator(),
+            ]);
+          }),
 
-              // Rounded image icons
-              // Left arrow
-            ]),
-          )
-        ],
-      );
+          // Rounded image icons
+          // Left arrow
+        ]))
+      ],
+    );
+  }
+}
+
+void startMissionDialog(context) {
+  debugPrint("starting mission");
+  showDialog(
+      context: context,
+      builder: ((BuildContext context2) {
+        final mainProvider = Provider.of<MainProvider>(context);
+        Map gameData = mainProvider.gameData;
+        return AlertDialog(
+          title: Text('Start  mission'),
+          content: Text('This is the content of the dialog.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context2).pop();
+              },
+              child: Text('Close'),
+            ),
+            TextButton(
+              onPressed: () {
+                debugPrint("ok");
+                Navigator.of(context2).pop();
+                Future.delayed(const Duration(seconds: 3), () {
+                  gameData["isInTimeMission"] = false;
+                  gameData["cashMoney"] = (gameData["cashMoney"] as int) + 10;
+                  mainProvider.notifyListeners();
+                  showDialog(
+                    context: context,
+                    builder: (context_) {
+                      return AlertDialog(
+                          title: Text("You earned 10 AZN "),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context_).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                          ]);
+                    },
+                  );
+                });
+              },
+              child: Text('Start'),
+            ),
+          ],
+        );
+      }));
+}
+
+class MissionButton extends StatelessWidget {
+  String? missionId;
+  // int missionIndex;
+  // var constraints;
+  // var callback;
+
+  MissionButton({
+    super.key,
+    // required this.missionIndex,
+    // required this.constraints,
+    // this.missionId,
+    // this.callback
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        // right: constraints.maxWidth / 3 * (missionIndex + 1),
+        // top: constraints.maxHeight * .3 + (missionIndex - 2).abs() * 20,
+        child: GestureDetector(
+            onTap: () {}, child: Image.asset("images/icons/rocket.png")));
   }
 }
 
@@ -130,10 +189,5 @@ class MissionScreen extends StatelessWidget {
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return Positioned(
-//         right: 40,
-//         top: constraints.maxHeight * .3,
-//         child: GestureDetector(
-//             onTap: callback, child: Image.asset("images/icons/rocket.png")));
-//   }
+//    
 // }

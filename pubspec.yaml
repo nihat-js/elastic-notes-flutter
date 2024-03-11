@@ -47,6 +47,7 @@ dependencies:
   circular_countdown_timer: ^0.2.3
   shared_preferences: ^2.2.2
   provider: ^6.1.2
+  uuid: ^4.3.3
 
 dev_dependencies:
   flutter_test:

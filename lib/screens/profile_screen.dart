@@ -36,7 +36,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         UserStat(
                             statName: Skill.stamina,
-                            statValue: provider.gameData["skills"][Skill.stamina]),
+                            statValue: provider.gameData["baseSkills"][Skill.stamina]),
                         PlusOneButton(
                           skill: Skill.stamina,
                         ),
@@ -45,14 +45,14 @@ class ProfileScreen extends StatelessWidget {
                     Row(children: [
                       UserStat(
                           statName: Skill.strength,
-                          statValue: provider.gameData["skills"]
+                          statValue: provider.gameData["baseSkills"]
                               [Skill.strength]),
                       PlusOneButton(skill: Skill.strength),
                     ]),
                     Row(children: [
                       UserStat(
                           statName: Skill.luck,
-                          statValue: provider.gameData["skills"][Skill.luck]),
+                          statValue: provider.gameData["baseSkills"][Skill.luck]),
                       PlusOneButton(
                         skill: Skill.luck,
                       ),
@@ -61,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         UserStat(
                             statName: Skill.dexterity,
-                            statValue: provider.gameData["skills"]
+                            statValue: provider.gameData["baseSkills"]
                                 [Skill.dexterity]),
                         PlusOneButton(skill: Skill.dexterity),
                       ],
@@ -86,9 +86,8 @@ class PlusOneButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         final mainProvider = Provider.of<MainProvider>(context,listen: false);
-        mainProvider.gameData["skills"][skill] += 1;
-        print("maraqli");
-        print( mainProvider.gameData["skills"][skill]);
+        mainProvider.gameData["baseSkills"][skill] += 1;
+        print( mainProvider.gameData["baseSkills"][skill]);
         mainProvider.notifyListeners();
         // Add your onPressed logic here
       },

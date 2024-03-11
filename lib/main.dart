@@ -3,6 +3,7 @@ import 'package:flutter_march/providers/main_provider.dart';
 import 'package:flutter_march/screens/arena_screen.dart';
 import 'package:flutter_march/screens/mission_screen.dart';
 import 'package:flutter_march/screens/profile_screen.dart';
+import 'package:flutter_march/widgets/side_missions.dart';
 import 'package:provider/provider.dart';
 
 const String gameName = "Baki life Simulator";
@@ -54,8 +55,8 @@ class _GameState extends State<Game> {
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'Ev'),
           NavigationDestination(
-              icon: Icon(Icons.real_estate_agent), label: 'Mülklərim'),
-          NavigationDestination(icon: Icon(Icons.warehouse), label: 'Arena'),
+              icon: Icon(Icons.account_tree_sharp), label: 'Misiyalar'),
+          NavigationDestination(icon: Icon(Icons.phone), label: 'Klan'),
           NavigationDestination(
               icon: Icon(Icons.real_estate_agent), label: 'Yan misyalar'),
           NavigationDestination(icon: Icon(Icons.terrain), label: 'Klan')
@@ -68,7 +69,7 @@ class _GameState extends State<Game> {
         },
         selectedIndex: bottomNavIndex,
       ),
-      body:  [ProfileScreen(),ProfileScreen(), ArenaScreen()][bottomNavIndex],
+      body:  [ProfileScreen(),MissionScreen(), ArenaScreen()][bottomNavIndex],
     );
   }
 }

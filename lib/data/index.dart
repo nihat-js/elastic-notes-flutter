@@ -1,5 +1,5 @@
 enum MissionPlace {
-  genclik,
+  genclik ,
   genclikMall,
   yasamal,
   yesilvadi,
