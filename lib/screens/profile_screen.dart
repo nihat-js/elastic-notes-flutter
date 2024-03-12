@@ -20,7 +20,8 @@ class ProfileScreen extends StatelessWidget {
               CircleAvatar(
                 radius: 50,
                 // Replace with enemy profile picture
-                backgroundImage: AssetImage('images/icons/profile.png'),
+                // backgroundImage: AssetImage('images/icons/profile.png'),
+                backgroundImage: Image.asset("assets/images/icons/profile.png").image,
               ),
               Container(
                 // padding: EdgeInsets.all(20),
@@ -94,7 +95,7 @@ class PlusOneButton extends StatelessWidget {
       child: SizedBox(
           width: 16,
           height: 16,
-          child: Image.asset("/images/icons/btn-plus.png")),
+          child: Image.asset("assets/images/icons/btn-plus.png")),
     );
   }
 }

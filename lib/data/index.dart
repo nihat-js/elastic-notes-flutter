@@ -16,12 +16,12 @@ List missionPlaces = [
   {
     "name": MissionPlace.genclik,
     "requiredLevel": 10,
-    "background": "images/places/yesilvadi.png"
+    "background": "assets/images/places/yesilvadi.png"
   },
   {
     "name": MissionPlace.yasamal,
     "requiredLevel": 15,
-    "background": "images/places/sehir-merkezi.png"
+    "background": "assets/images/places/sehir-merkezi.png"
   }
 ];
 

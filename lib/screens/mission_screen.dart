@@ -18,11 +18,12 @@ class _MissionScreenState extends State<MissionScreen> {
 
   void travelMissionPlace(String type) {
     // debugPrint("Traveling");ss
-    if (type=="left" && missionPlaceIndex == 0) return ;
-    if (type=="right" && missionPlaceIndex == missionPlaces.length -1 ) return ;
+    if (type == "left" && missionPlaceIndex == 0) return;
+    if (type == "right" && missionPlaceIndex == missionPlaces.length - 1)
+      return;
 
     type == "left" ? missionPlaceIndex-- : missionPlaceIndex++;
-    
+
     setState(() {});
   }
 
@@ -76,21 +77,21 @@ class _MissionScreenState extends State<MissionScreen> {
                   ),
                 ),
               ),
-              if (mainProvider.gameData["isInTimeMission"] == false)
-                ...(mainProvider.getMissionsOfPlace(
-                        missionPlaces[missionPlaceIndex]["name"]))
-                    .asMap()
-                    .entries
-                    .map((entry) {
-                  print("problem nedi ki");
-                  print(entry);
-                  return MissionButton(
-                      missionIndex: entry.key,
-                      mission : entry.value.item,
-                      // missionId: entry.value.item["id"].toString(),
-                      constraints: constraints,
-                      );
-                })
+              // if (mainProvider.gameData["isInTimeMission"] == false)
+              //   ...(mainProvider.getMissionsOfPlace(
+              //           missionPlaces[missionPlaceIndex]["name"]))
+              //       .asMap()
+              //       .entries
+              //       .map((entry) {
+              //     print("problem nedi ki");
+              //     print(entry);
+              //     return MissionButton(
+              //       missionIndex: entry.key,
+              //       mission: entry.value.item,
+              //       // missionId: entry.value.item["id"].toString(),
+              //       constraints: constraints,
+              //     );
+              //   })
               // EarnMoneyItem(
               // constraints: constraints,
               // callback: startMissionDialog,
@@ -108,7 +109,7 @@ class _MissionScreenState extends State<MissionScreen> {
   }
 }
 
-void startMissionDialog(context,mission) {
+void startMissionDialog(context, mission) {
   debugPrint("starting mission");
   showDialog(
       context: context,
@@ -117,7 +118,7 @@ void startMissionDialog(context,mission) {
         Map gameData = mainProvider.gameData;
         return AlertDialog(
           title: Text('Start  mission'),
-          content: Text(   'This is the content of the dialog.'),
+          content: Text('This is the content of the dialog.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -129,8 +130,7 @@ void startMissionDialog(context,mission) {
               onPressed: () {
                 debugPrint("ok");
                 Navigator.of(context2).pop();
-                  gameData["isInTimeMission"] = true;
-                
+                gameData["isInTimeMission"] = true;
               },
               child: Text('Start'),
             ),
@@ -161,9 +161,10 @@ class MissionButton extends StatelessWidget {
         right: constraints.maxWidth / 3 * (missionIndex + 1),
         top: constraints.maxHeight * .3 + (missionIndex - 2).abs() * 20,
         child: GestureDetector(
-            onTap: () { 
-              startMissionDialog(context,mission);
-              }, child: Image.asset("images/icons/rocket.png")));
+            onTap: () {
+              startMissionDialog(context, mission);
+            },
+            child: Image.asset("assets/images/icons/rocket.png")));
   }
 }
 

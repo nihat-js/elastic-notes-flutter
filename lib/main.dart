@@ -7,6 +7,30 @@ import 'package:flutter_march/widgets/side_missions.dart';
 import 'package:provider/provider.dart';
 
 const String gameName = "Baki life Simulator";
+
+// void main() {
+//   runApp(MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: Text('Image Loading Example2'),
+//         ),
+//         body: Center(
+//           child:   Image.asset('assets/images/clock.png'),  // Path to the image file
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+
 void main() {
   runApp(
     ChangeNotifierProvider(
@@ -51,23 +75,27 @@ class _GameState extends State<Game> {
     final mainProvider = Provider.of<MainProvider>(context);
 
     return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Ev'),
-          NavigationDestination(
-              icon: Icon(Icons.account_tree_sharp), label: 'Misiyalar'),
-          NavigationDestination(icon: Icon(Icons.phone), label: 'Klan'),
-          NavigationDestination(
-              icon: Icon(Icons.real_estate_agent), label: 'Yan misyalar'),
-          NavigationDestination(icon: Icon(Icons.terrain), label: 'Klan')
-        ],
-        onDestinationSelected: (int index) {
-          // debugPrint("i am selected " + index.toString());
-          mainProvider.setBottomNavIndex(index);
-          bottomNavIndex = index;
-          setState(() {});
-        },
-        selectedIndex: bottomNavIndex,
+      bottomNavigationBar: SizedBox(
+        height: 60,
+        child: NavigationBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          destinations: const [
+            NavigationDestination(icon: Icon(Icons.home), label: 'Ev'),
+            NavigationDestination(
+                icon: Icon(Icons.account_tree_sharp), label: 'Misiyalar'),
+            NavigationDestination(icon: Icon(Icons.fire_hydrant_alt_rounded), label: 'Arena'),
+          ],
+        
+        
+          onDestinationSelected: (int index) {
+            // debugPrint("i am selected " + index.toString());
+            mainProvider.setBottomNavIndex(index);
+            bottomNavIndex = index;
+            setState(() {});
+          },
+          selectedIndex: bottomNavIndex,
+        ),
       ),
       body:  [ProfileScreen(),MissionScreen(), ArenaScreen()][bottomNavIndex],
     );

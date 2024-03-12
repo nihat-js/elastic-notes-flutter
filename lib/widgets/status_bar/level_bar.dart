@@ -16,7 +16,7 @@ class LevelBar extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundImage: AssetImage('images/icons/profile.png'),
+                backgroundImage: Image.asset('assets/images/icons/profile.png').image,
               ),
               Text(
                 'Level 10',

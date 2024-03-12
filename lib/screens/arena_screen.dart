@@ -45,7 +45,7 @@ class EnemyProfile extends StatelessWidget {
               CircleAvatar(
                 radius: 50,
                 // Replace with enemy profile picture
-                backgroundImage: AssetImage('images/icons/profile.png'),
+                backgroundImage: AssetImage('assets/images/icons/profile.png'),
               ),
               SizedBox(height: 10),
               Text(
@@ -53,7 +53,7 @@ class EnemyProfile extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
-              UserStats(stamina: 120, strength: 30, luck: 180, dexterity: 240),
+              UserStats(stamina: 103, strength: 32, luck: 181, dexterity: 241),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
